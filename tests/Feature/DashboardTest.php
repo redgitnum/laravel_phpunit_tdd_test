@@ -4,11 +4,13 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DashboardTests extends TestCase
 {
+    use RefreshDatabase;
 
     public function test_can_see_dashboard_when_logged_in()
     {
@@ -16,7 +18,7 @@ class DashboardTests extends TestCase
         $this->actingAs($user);
         $response = $this->get('/dashboard');
         $response->assertStatus(200);
-        $response->assertLocation('/dashboard');
+        $response->assertViewIs('dashboard');
     }
 
     public function test_redirect_to_homepage_when_accessing_dashboard_as_guest()

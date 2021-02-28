@@ -9,19 +9,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthTests extends TestCase
 {
+    use RefreshDatabase;
 
     public function test_login_view_exists()
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
-        $response->assertLocation('/login');
+        $response->assertViewIs('auth.login');
     }
 
     public function test_register_view_exists()
     {
         $response = $this->get('/register');
         $response->assertStatus(200);
-        $response->assertLocation('/register');
+        $response->assertViewIs('auth.register');
     }
 
     public function test_redirect_to_dashboard_from_login_or_register_if_logged_in()
@@ -63,8 +64,8 @@ class AuthTests extends TestCase
             'email' => 'test@email.com',
             'password' => 'wrongpassword',
         ]);
-        $response->assertRedirect('/login');
         $response->assertSessionHasErrors();
+        $response->assertRedirect('/login');
         $this->assertGuest();
     }
 
@@ -74,10 +75,10 @@ class AuthTests extends TestCase
             'name' => 'Test username',
             'email' => 'test@email.com',
             'password' => 'password',
-            'confirm_password' => 'password'
+            'password_confirmation' => 'password'
         ]);
-        $this->assertDatabaseHas('users', ['email', 'test@email.com']);
         $response->assertRedirect('/login');
+        $this->assertDatabaseHas('users', ['email' => 'test@email.com']);
     }
 
     public function test_cannot_register_with_invalid_input()
@@ -86,9 +87,9 @@ class AuthTests extends TestCase
             'name' => '',
             'email' => 'test@email.com',
             'password' => 'password',
-            'confirm_password' => 'password'
+            'password_confirmation' => 'password'
         ]);
-        $this->assertDatabaseMissing('users', ['email', 'test@email.com']);
+        $this->assertDatabaseMissing('users', ['email' => 'test@email.com']);
         $response->assertRedirect('/register');
         $response->assertSessionHasErrors();
     }

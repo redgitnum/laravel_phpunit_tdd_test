@@ -9,12 +9,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BasicTests extends TestCase
 {
+    use RefreshDatabase;
 
     public function test_homepage_view_exists()
     {
         $response = $this->get('/');
         $response->assertStatus(200);
-        $response->assertLocation('/');
+        $response->assertViewIs('home');
     }
 
     public function test_see_login_and_register_button_when_not_logged()
