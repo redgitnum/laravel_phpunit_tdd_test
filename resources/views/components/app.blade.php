@@ -8,6 +8,8 @@
     <title>Basic crud test</title>
 </head>
 <body>
+    <x-navigation>
+    </x-navigation>
     {{ $slot }}
 </body>
 </html>

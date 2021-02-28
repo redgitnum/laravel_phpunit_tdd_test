@@ -20,6 +20,7 @@ use App\Http\Controllers\DashboardController;
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', ProductController::class);
+    Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
 
 Route::middleware('guest')->group(function () {

@@ -93,4 +93,15 @@ class AuthTests extends TestCase
         $response->assertRedirect('/register');
         $response->assertSessionHasErrors();
     }
+
+    public function test_can_logout_when_logged_in()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $this->assertAuthenticated();
+
+        $response = $this->delete('/dashboard/logout');
+        $response->assertRedirect('/');
+        $this->assertGuest();
+    }
 }

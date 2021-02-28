@@ -20,25 +20,31 @@ class BasicTests extends TestCase
 
     public function test_see_login_and_register_button_when_not_logged()
     {
-        $response = $this->get('/');
+        $response = $this->view('home');
         $response->assertSeeText('Login');
         $response->assertSeeText('Register');
     }
 
-    public function test_not_see_login_and_register_button_when_logged_in()
-    {
-        $response = $this->get('/');
-        $response->assertDontSeeText('Login');
-        $response->assertDontSeeText('Register');
-    }
-
-    public function test_see_username_button_when_logged_in()
+    public function test_cannot_see_login_and_register_button_when_logged_in()
     {
         $user = User::factory()->create([
             'name' => 'John Doe'
         ]);
         $this->actingAs($user);
-        $response = $this->get('/');
-        $response->assertSeeText('John Doe');
+        $response = $this->view('home');
+        $response->assertDontSeeText('Login');
+        $response->assertDontSeeText('Register');
+        $response->assertSeeText($user->name);
+
     }
+
+    // public function test_see_username_button_when_logged_in()
+    // {
+    //     $user = User::factory()->create([
+    //         'name' => 'John Doe'
+    //     ]);
+    //     $this->actingAs($user);
+    //     $response = $this->get('/');
+    //     $response->assertSeeText('John Doe');
+    // }
 }

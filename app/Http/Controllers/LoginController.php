@@ -20,4 +20,10 @@ class LoginController extends Controller
         }
         return redirect()->route('dashboard');
     }
+
+    public function destroy()
+    {
+        Auth::logout();
+        return redirect()->route('home');
+    }
 }
