@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -23,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product');
     }
 
     /**
@@ -34,7 +35,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'count' => 'numeric|required',
+        //     'price' => 'numeric|required'
+        // ]);
+
+        Product::create([
+            'name' => $request->name,
+            'count' => $request->count,
+            'price' => $request->price,
+        ]);
+        return redirect()->route('dashboard')->with('success', 'Product Added Successfully');
     }
 
     /**
@@ -56,7 +68,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('product', [
+            'product' => Product::where('id', $id)->first()
+        ]);
     }
 
     /**
@@ -68,7 +82,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Product::where('id', $id)->update([
+            'name' => $request->name,
+            'count' => $request->count,
+            'price' => $request->price,
+        ]);
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -79,6 +98,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::find($id)->delete();
+        return redirect()->route('dashboard')->with('success', 'Product Deleted Successfully');
     }
 }
