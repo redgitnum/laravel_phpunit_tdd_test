@@ -1,7 +1,7 @@
 <x-app>
     <div class="shadow bg-white w-auto p-4">
         @if(session('success'))
-            <div class="m-2 mx-6 text-green-600 text-sm list-disc">
+            <div class="m-2  text-green-600 text-sm list-disc">
                 {{ session('success') }}
             </div>
         @endif
@@ -31,7 +31,7 @@
                         <td class="p-2 border-t-2 border-gray-200 @if($loop->even) bg-gray-100 @endif">{{ $product->price }}</td>
                         <td class="p-2 border-t-2 flex gap-1 border-gray-200 @if($loop->even) bg-gray-100 @endif">
                             <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="p-1 px-2 bg-blue-500 hover:bg-blue-400 text-white rounded">Edit</a>
-                            <form action="#">
+                            <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                                 <button class="p-1 px-2 bg-red-500 hover:bg-red-400 text-white rounded">Delete</button>

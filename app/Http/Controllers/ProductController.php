@@ -82,6 +82,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'count' => 'numeric|required',
+            'price' => 'numeric|required'
+        ]);
         Product::where('id', $id)->update([
             'name' => $request->name,
             'count' => $request->count,
