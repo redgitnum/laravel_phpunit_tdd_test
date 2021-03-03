@@ -21,10 +21,10 @@ class DashboardTests extends TestCase
         $response->assertViewIs('dashboard');
     }
 
-    public function test_redirect_to_homepage_when_accessing_dashboard_as_guest()
+    public function test_redirect_to_login_page_when_accessing_dashboard_as_guest()
     {
         $response = $this->get('/dashboard');
-        $response->assertRedirect('/');
+        $response->assertRedirect('/login');
     }
 
     public function test_can_see_products_table_in_dashboard()
