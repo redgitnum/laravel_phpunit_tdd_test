@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home')->name('home');
+Route::view('/', 'home')->name('home')->middleware('guest');
 
 require __DIR__.'/auth.php';

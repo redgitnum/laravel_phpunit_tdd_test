@@ -16,7 +16,7 @@ class LoginController extends Controller
     public function store(LoginRequest $request)
     {
         if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect()->route('login')->withErrors('wrong credentials');
+            return redirect()->route('login')->withErrors('Wrong credentials');
         }
         return redirect()->route('dashboard');
     }
@@ -24,6 +24,6 @@ class LoginController extends Controller
     public function destroy()
     {
         Auth::logout();
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Logged out successfully');
     }
 }

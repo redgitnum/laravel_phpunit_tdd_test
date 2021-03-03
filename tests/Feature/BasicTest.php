@@ -31,20 +31,20 @@ class BasicTests extends TestCase
             'name' => 'John Doe'
         ]);
         $this->actingAs($user);
-        $response = $this->view('home');
+        $response = $this->get('/dashboard');
         $response->assertDontSeeText('Login');
         $response->assertDontSeeText('Register');
         $response->assertSeeText($user->name);
 
     }
 
-    // public function test_see_username_button_when_logged_in()
-    // {
-    //     $user = User::factory()->create([
-    //         'name' => 'John Doe'
-    //     ]);
-    //     $this->actingAs($user);
-    //     $response = $this->get('/');
-    //     $response->assertSeeText('John Doe');
-    // }
+    public function test_see_username_button_when_logged_in()
+    {
+        $user = User::factory()->create([
+            'name' => 'John Doe'
+        ]);
+        $this->actingAs($user);
+        $response = $this->get('/dashboard');
+        $response->assertSee('John Doe');
+    }
 }

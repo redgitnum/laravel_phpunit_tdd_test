@@ -22,7 +22,7 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
-            return redirect()->route('login');
+            return redirect()->route('login')->with('success', 'Registered successfully, now you can log in');
         } catch (\Throwable $e) {
             return redirect()->route('register');
         }
